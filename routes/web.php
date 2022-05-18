@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('users',[UserController::class,'index'])->name('users');
+Route::get('create',[UserController::class,'create'])->name('userCreate');
+Route::post('create',[UserController::class,'store']);
