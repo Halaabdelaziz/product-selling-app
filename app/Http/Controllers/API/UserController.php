@@ -89,4 +89,7 @@ class UserController extends Controller
     {
         //
     }
+    public function sendEmail(Request $request){
+        return $this->_UserInterface->sendEmail($request);
+    }
 }

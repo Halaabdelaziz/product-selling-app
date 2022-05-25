@@ -4,5 +4,6 @@ interface UserInterface{
 
     public function store($request);
     public function update($request);
+    public function sendEmail($request);
 
 }

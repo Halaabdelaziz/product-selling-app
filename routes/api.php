@@ -18,17 +18,30 @@ use App\Http\Controllers\API\CustomAuthController;
 */
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('logout',[CustomAuthController::class,'CustomLogout']);
-    Route::patch('users',[UserController::class,'update']);
+    // route to update login user info
+    Route::patch('user',[UserController::class,'update']);
+    // route to get user products
     Route::get('user-products',[ProductController::class,'getUserProducts']);
+    // route to logout
+    Route::post('logout',[CustomAuthController::class,'CustomLogout']);
+    // route to create product
+    Route::post('product',[ProductController::class,'store']);
+      // route to update product
+    Route::patch('product/{id}',[ProductController::class,'update']);
 });
 
-
+// route to login user 
 Route::post('login',[CustomAuthController::class,'CustomLogin']);
 
-Route::post('users',[UserController::class,'store']);
+// route to store new user
+Route::post('user',[UserController::class,'store']);
 
-Route::get('products',[ProductController::class,'index']);
-Route::post('products',[ProductController::class,'store']);
-Route::PUT('products/{id}',[ProductController::class,'update']);
-Route::delete('products/{id}',[ProductController::class,'destroy']);
+Route::group(['prefix'=>'products'], function(){
+    // get all products 
+    Route::get('',[ProductController::class,'index']);
+    // route to delete product by id
+    Route::delete('/{id}',[ProductController::class,'destroy']);
+});
+
+// route to send product info to multi users throun mail trap
+Route::post('send-email', [UserController::class, 'sendEmail'])->name('send.email');
