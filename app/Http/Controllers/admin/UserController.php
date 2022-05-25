@@ -5,7 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+
 
 class UserController extends Controller
 {
@@ -41,19 +43,41 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->phone = $request->phone;
+        $user = $request->validate([
+            'name'=>'required|string',
+            'email'=>'required|email|unique:users',
+            'password'=>'required|string',
+            'phone'=>'required|string',
+            'image'=>'required'
+        ]);
+        $userCreate = User::create([
+            'name'=>$user['name'],
+            'email'=>$user['email'],
+            'password'=>Hash::make($user['password']),
+            'phone'=>$user['phone'],
+         
+
+        ]);
+        // $user = new User();
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // $user->password = Hash::make($request->password);
+        // $user->phone = $request->phone;
         // if($request->has('image')){
+            
         //     $extension = $request->file('image')->getClientOriginalExtension();
         //     $imagefilesaving = time(). '.'.$extension;
         //     $path = $request->file('image')->move(public_path('images'), $imagefilesaving);
         //     $user->image=$imagefilesaving;
         // }
-        $user->save();
-       
+        // $user->save();
+        // return response()->json(
+        //     [
+        //       'success' => true,
+        //       'message' => 'Data inserted successfully'
+        //     ]);
+        $users = User::all();
+        return view('home',compact('users'));
     }
 
     /**
@@ -99,7 +123,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        dd($id);
         User::destroy($id);
+
     }
 }
