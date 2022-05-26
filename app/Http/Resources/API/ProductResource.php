@@ -19,7 +19,7 @@ class ProductResource extends JsonResource
         return [
             'Product-name'=>$this->p_name,
             'Product-description'=>$this->p_description,
-            'user'=>new UserResource($this->users)
+            'user'=>new UserResource($this->user)
         ];
     }
 }

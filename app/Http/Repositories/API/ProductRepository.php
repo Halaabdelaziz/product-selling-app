@@ -11,8 +11,8 @@ class ProductRepository implements ProductInterface{
 
     // get all products by it's owner name
     public function index(){
-        // $products = ProductResource::collection(Product::all());
-        $products = Product::with('users')->get();
+        $products = ProductResource::collection(Product::all());
+        // $products = Product::with('user')->get();
         return $products;
     }
 
